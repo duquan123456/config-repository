@@ -1,0 +1,24 @@
+name: itcast-pro
+server:
+  port: 9005
+spring:
+  application:
+    name: rabbitmq-producer
+  rabbitmq:
+    addresses: 127.0.0.1
+    username: guest
+    password: guest
+    port: 5672
+  cloud:
+    stream:
+      bindings:
+        output:
+          destination: itcast-default #指定消息发送目的地，发送到一个名为itcast-default的exchange中
+        myoutput:
+          destination: itcast-custom-output
+          producer:
+            partition-key-expression: payload #分区关键字 对象中的id
+            partition-count: 2 #分区大小
+      binders:
+        defaultRabbit:
+          type: rabbit
