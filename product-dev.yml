@@ -1,0 +1,63 @@
+server:
+  port: 9002
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+
+spring:
+  application:
+    name: service-product
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/demo1?useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  jpa:
+    database: mysql
+    show-sql: true
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        #当没有使用@Table和@Column注解时，implicit-strategy配置项才会被使用 默认
+        #implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        #首字母小写，大写字母变为下划线加小写 默认
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        #自定义前缀tb_表
+        #physical-strategy: cn.itcast.product.util.CustomNamingStrategyConfig
+        #不做修改，直接映射
+        #physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    #默认false 如果你显式设置为true，最后框架会选择update方式
+    generate-ddl: false
+
+  zipkin:
+    base-url: http://127.0.0.1:9411/  #server的请求地址
+    sender:
+      type: web #数据的传输方式，以http的形式向server端发送数据
+    sleuth:
+      sampler:
+        probability: 1 #采样比
+
+#  redis:
+#    host: localhost
+#    port: 6379
+#    password: 123456
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8001/eureka/,http://127.0.0.1:8002/eureka/
+  instance:
+    prefer-ip-address: true #使用ip地址注册
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port} #向注册中心注册服务ID
+    lease-renewal-interval-in-seconds: 5  #每隔5秒发送心跳 默认30秒
+    lease-expiration-duration-in-seconds: 10 #续约到期时间10 默认90秒
+logging:
+  level:
+    root: info
+    org.springframework.web.servlet.DispatcherServlet: DEBUG
+    org.springframework.cloud.sleuth: DEBUG
