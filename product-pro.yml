@@ -16,6 +16,11 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/demo1?useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: root
+  rabbitmq:
+    addresses: 127.0.0.1
+    username: guest
+    password: guest
+    port: 5672
   jpa:
     database: mysql
     show-sql: true
