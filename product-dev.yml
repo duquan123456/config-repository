@@ -66,4 +66,4 @@ logging:
     root: info
     org.springframework.web.servlet.DispatcherServlet: DEBUG
     org.springframework.cloud.sleuth: DEBUG
-name: product-dev-1
+name: product-dev-2
